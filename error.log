@@ -1,0 +1,2 @@
+{"level":"error","message":"400 - Unexpected token } in JSON at position 36 - /auth/verify - POST - ::1"}
+{"level":"error","message":"400 - Invalid email format - /auth/register - POST - ::1"}

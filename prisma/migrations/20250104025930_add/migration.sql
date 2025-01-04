@@ -1,0 +1,2 @@
+-- AlterTable
+ALTER TABLE `member` ADD COLUMN `balance` DOUBLE NOT NULL DEFAULT 0;
