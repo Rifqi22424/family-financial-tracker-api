@@ -93,15 +93,25 @@ const createTransaction = async (req, res, next) => {
       throw new BadRequestError("Semua data wajib diisi");
     }
 
+    // Cari member berdasarkan userId
     const member = await prisma.member.findUnique({ where: { userId } });
     if (!member) throw new NotFoundError("Member tidak ditemukan");
 
+    // Periksa izin untuk menambah pemasukan
     if (transactionType === "INCOME" && !member.canAddIncome) {
       throw new ForbiddenError(
         "Anda tidak memiliki izin untuk menambah pemasukan"
       );
     }
 
+    // Periksa saldo untuk pengeluaran
+    if (transactionType === "EXPENSE" && member.balance < amount) {
+      throw new BadRequestError(
+        "Saldo tidak mencukupi untuk melakukan pengeluaran"
+      );
+    }
+
+    // Sesuaikan nilai saldo
     const adjustment = transactionType === "INCOME" ? amount : -amount;
 
     const transaction = await prisma.transaction.create({
