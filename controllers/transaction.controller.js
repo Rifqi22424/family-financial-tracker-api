@@ -391,6 +391,145 @@ const getTotalTransaction = async (req, res, next) => {
   }
 };
 
+const getFamilyTransactions = async (req, res, next) => {
+  try {
+    const { transactionType, timePeriod, page = 1, limit = 10 } = req.query; // INCOME/EXPENSE, timePeriod: day/week/month/year/all
+    const userId = req.userId;
+
+    // Ambil informasi member berdasarkan userId
+    const member = await prisma.member.findUnique({
+      where: { userId },
+      select: {
+        familyId: true,
+        canViewFamilyReport: true,
+      },
+    });
+
+    if (!member) throw new NotFoundError("Member tidak ditemukan");
+    if (!member.canViewFamilyReport) {
+      throw new ForbiddenError(
+        "Anda tidak memiliki izin untuk melihat transaksi keluarga"
+      );
+    }
+
+    if (!transactionType || !["INCOME", "EXPENSE"].includes(transactionType)) {
+      throw new BadRequestError("Jenis transaksi tidak valid");
+    }
+
+    if (
+      !timePeriod ||
+      !["day", "week", "month", "year", "all"].includes(timePeriod)
+    ) {
+      throw new BadRequestError("Rentang waktu tidak valid");
+    }
+
+    const currentDate = new Date();
+    let startDate, endDate;
+
+    // Tentukan rentang tanggal berdasarkan timePeriod
+    switch (timePeriod) {
+      case "day":
+        startDate = new Date(
+          currentDate.getFullYear(),
+          currentDate.getMonth(),
+          currentDate.getDate()
+        );
+        endDate = new Date(
+          currentDate.getFullYear(),
+          currentDate.getMonth(),
+          currentDate.getDate() + 1
+        );
+        break;
+
+      case "week":
+        const firstDayOfWeek = currentDate.getDate() - currentDate.getDay(); // Mulai minggu (Minggu)
+        startDate = new Date(
+          currentDate.getFullYear(),
+          currentDate.getMonth(),
+          firstDayOfWeek
+        );
+        endDate = new Date(
+          currentDate.getFullYear(),
+          currentDate.getMonth(),
+          firstDayOfWeek + 7
+        );
+        break;
+
+      case "month":
+        startDate = new Date(
+          currentDate.getFullYear(),
+          currentDate.getMonth(),
+          1
+        );
+        endDate = new Date(
+          currentDate.getFullYear(),
+          currentDate.getMonth() + 1,
+          0
+        );
+        break;
+
+      case "year":
+        startDate = new Date(currentDate.getFullYear(), 0, 1);
+        endDate = new Date(currentDate.getFullYear() + 1, 0, 0);
+        break;
+
+      case "all":
+        startDate = undefined; // Tidak ada batas bawah
+        endDate = undefined; // Tidak ada batas atas
+        break;
+
+      default:
+        throw new BadRequestError("Rentang waktu tidak valid");
+    }
+
+    const skip = (page - 1) * parseInt(limit);
+    const take = parseInt(limit);
+
+    const transactions = await prisma.transaction.findMany({
+      where: {
+        familyId: member.familyId,
+        transactionType,
+        ...(timePeriod !== "all" && {
+          transactionAt: {
+            gte: startDate,
+            lte: endDate,
+          },
+        }),
+      },
+      include: { member: true, member: { select: { user: true } } },
+      orderBy: { transactionAt: "desc" },
+      skip,
+      take,
+    });
+
+    const totalTransactions = await prisma.transaction.count({
+      where: {
+        familyId: member.familyId,
+        transactionType,
+        ...(timePeriod !== "all" && {
+          transactionAt: {
+            gte: startDate,
+            lte: endDate,
+          },
+        }),
+      },
+    });
+
+    res.json({
+      data: transactions,
+      meta: {
+        page: parseInt(page),
+        limit: take,
+        total: totalTransactions,
+        totalPages: Math.ceil(totalTransactions / take),
+      },
+    });
+  } catch (error) {
+    console.error("Error getting family transactions:", error);
+    next(error);
+  }
+};
+
 module.exports = {
   getBalance,
   getTransactions,
@@ -398,4 +537,5 @@ module.exports = {
   createTransaction,
   createTransfer,
   getTotalTransaction,
+  getFamilyTransactions,
 };
