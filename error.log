@@ -23,3 +23,11 @@
 {"level":"error","message":"400 - Semua data wajib diisi - /transaction/transfer - POST - ::1"}
 {"level":"error","message":"404 - Halaman tidak ditemukan - /transaction/history - POST - ::1"}
 {"level":"error","message":"404 - Halaman tidak ditemukan - /transaction/montly - GET - ::1"}
+{"level":"error","message":"404 - Halaman tidak ditemukan - /transaction/total - GET - ::1"}
+{"level":"error","message":"400 - Jenis transaksi tidak valid - /transaction/total - GET - ::1"}
+{"level":"error","message":"400 - Jenis transaksi tidak valid - /transaction/total - GET - ::1"}
+{"level":"error","message":"400 - Jenis transaksi tidak valid - /transaction/total - GET - ::1"}
+{"level":"error","message":"400 - Rentang waktu tidak valid - /transaction/total?transactionType=EXPENSE&timePeriod=all - GET - ::1"}
+{"level":"error","message":"400 - Rentang waktu tidak valid - /transaction/total?transactionType=EXPENSE&timePeriod=all - GET - ::1"}
+{"level":"error","message":"400 - Jenis transaksi tidak valid - /transaction/history - GET - ::1"}
+{"level":"error","message":"400 - Rentang waktu tidak valid - /transaction/history?transactionType=INCOME&timePeriod=ALL - GET - ::1"}
