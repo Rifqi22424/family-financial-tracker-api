@@ -17,3 +17,9 @@
 {"level":"error","message":"401 - Identifier atau password tidak valid - /auth/login - POST - ::1"}
 {"level":"error","message":"400 - Semua data wajib diisi - /transaction - POST - ::1"}
 {"level":"error","message":"403 - Anda tidak memiliki izin untuk menambah pemasukan - /transaction - POST - ::1"}
+{"level":"error","message":"400 - Saldo tidak mencukupi untuk melakukan pengeluaran - /transaction - POST - ::1"}
+{"level":"error","message":"403 - Anda tidak memiliki izin untuk menambah pemasukan - /transaction - POST - ::1"}
+{"level":"error","message":"403 - Anda tidak memiliki izin untuk menambah pemasukan - /transaction - POST - ::1"}
+{"level":"error","message":"400 - Semua data wajib diisi - /transaction/transfer - POST - ::1"}
+{"level":"error","message":"404 - Halaman tidak ditemukan - /transaction/history - POST - ::1"}
+{"level":"error","message":"404 - Halaman tidak ditemukan - /transaction/montly - GET - ::1"}
