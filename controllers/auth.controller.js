@@ -3,6 +3,11 @@ const prisma = require("../prisma/client");
 const bcrypt = require("bcrypt");
 const { generateToken } = require("../middlewares/jwt.middleware");
 const { validateEmail, validatePassword } = require("../utils/validators");
+const {
+  BadRequestError,
+  NotFoundError,
+  UnauthorizedError,
+} = require("../utils/errors");
 
 const saltRounds = 10;
 
@@ -17,7 +22,7 @@ const registerUser = async (req, res, next) => {
     }
 
     validateEmail(email);
-    validatePassword(password);
+    // validatePassword(password);
 
     if (password !== confirmPassword) {
       throw new BadRequestError("Password dan konfirmasi password tidak cocok");

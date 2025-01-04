@@ -3,9 +3,11 @@ const router = express.Router();
 const {
   createFamily,
   joinFamily,
+  getFamilyMembers,
 } = require("../controllers/family.controller");
 
-router.post("/", createFamily);
 router.post("/join", joinFamily);
+router.get("/members", getFamilyMembers);
+router.post("/", createFamily);
 
 module.exports = router;
