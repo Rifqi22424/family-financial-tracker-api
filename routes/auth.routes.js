@@ -8,6 +8,6 @@ router.post('/register', registerUser);
 router.post('/verify', verifyUser);
 router.post('/resend-verification', resendVerificationCode); 
 
-router.put('/change-password', changePassword);
+router.put('/password', changePassword);
 
 module.exports = router;
