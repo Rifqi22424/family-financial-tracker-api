@@ -22,110 +22,202 @@ const getBalance = async (req, res, next) => {
   }
 };
 
+// const getTransactions = async (req, res, next) => {
+//   try {
+//     const { transactionType, timePeriod, page = 1, limit = 10, month, year } = req.query; // INCOME/EXPENSE, timePeriod: day/week/month/year/all
+//     const userId = req.userId;
+
+//     if (!transactionType || !["INCOME", "EXPENSE"].includes(transactionType)) {
+//       throw new BadRequestError("Jenis transaksi tidak valid");
+//     }
+
+//     if (
+//       !timePeriod ||
+//       !["day", "week", "month", "year", "all"].includes(timePeriod)
+//     ) {
+//       throw new BadRequestError("Rentang waktu tidak valid");
+//     }
+
+//     const currentDate = new Date();
+//     let startDate, endDate;
+
+//     if (month && year) {
+//       // Jika `month` dan `year` diberikan, gunakan filter bulan dan tahun
+//       const parsedMonth = parseInt(month) - 1; // Bulan dalam JavaScript berbasis 0
+//       const parsedYear = parseInt(year);
+
+//       if (
+//         isNaN(parsedMonth) ||
+//         isNaN(parsedYear) ||
+//         parsedMonth < 0 ||
+//         parsedMonth > 11
+//       ) {
+//         throw new BadRequestError("Parameter bulan atau tahun tidak valid");
+//       }
+
+//       startDate = new Date(parsedYear, parsedMonth, 1);
+//       endDate = new Date(parsedYear, parsedMonth + 1, 0); // Akhir bulan
+//     }
+//     // Tentukan rentang tanggal berdasarkan timePeriod
+//     switch (timePeriod) {
+//       case "day":
+//         startDate = new Date(
+//           currentDate.getFullYear(),
+//           currentDate.getMonth(),
+//           currentDate.getDate()
+//         );
+//         endDate = new Date(
+//           currentDate.getFullYear(),
+//           currentDate.getMonth(),
+//           currentDate.getDate() + 1
+//         );
+//         break;
+
+//       case "week":
+//         const firstDayOfWeek = currentDate.getDate() - currentDate.getDay(); // Mulai minggu (Minggu)
+//         startDate = new Date(
+//           currentDate.getFullYear(),
+//           currentDate.getMonth(),
+//           firstDayOfWeek
+//         );
+//         endDate = new Date(
+//           currentDate.getFullYear(),
+//           currentDate.getMonth(),
+//           firstDayOfWeek + 7
+//         );
+//         break;
+
+//       case "month":
+//         startDate = new Date(
+//           currentDate.getFullYear(),
+//           currentDate.getMonth(),
+//           1
+//         );
+//         endDate = new Date(
+//           currentDate.getFullYear(),
+//           currentDate.getMonth() + 1,
+//           0
+//         );
+//         break;
+
+//       case "year":
+//         startDate = new Date(currentDate.getFullYear(), 0, 1);
+//         endDate = new Date(currentDate.getFullYear() + 1, 0, 0);
+//         break;
+
+//       case "all":
+//         startDate = undefined; // Tidak ada batas bawah
+//         endDate = undefined; // Tidak ada batas atas
+//         break;
+
+//       default:
+//         throw new BadRequestError("Rentang waktu tidak valid");
+//     }
+
+//     const skip = (page - 1) * parseInt(limit);
+//     const take = parseInt(limit);
+
+//     const transactions = await prisma.transaction.findMany({
+//       where: {
+//         member: { userId },
+//         transactionType,
+//         ...(timePeriod !== "all" && {
+//           transactionAt: {
+//             gte: startDate,
+//             lte: endDate,
+//           },
+//         }),
+//       },
+//       orderBy: { transactionAt: "desc" },
+//       skip,
+//       take,
+//     });
+
+//     const totalTransactions = await prisma.transaction.count({
+//       where: {
+//         member: { userId },
+//         transactionType,
+//         ...(timePeriod !== "all" && {
+//           transactionAt: {
+//             gte: startDate,
+//             lte: endDate,
+//           },
+//         }),
+//       },
+//     });
+
+//     res.json({
+//       data: transactions,
+//       meta: {
+//         page: parseInt(page),
+//         limit: take,
+//         total: totalTransactions,
+//         totalPages: Math.ceil(totalTransactions / take),
+//       },
+//     });
+//   } catch (error) {
+//     console.error("Error getting transactions:", error);
+//     next(error);
+//   }
+// };
+
 const getTransactions = async (req, res, next) => {
   try {
-    const { transactionType, timePeriod, page = 1, limit = 10 } = req.query; // INCOME/EXPENSE, timePeriod: day/week/month/year/all
+    const { transactionType, month, year, page = 1, limit = 10 } = req.query; // Hanya menggunakan `month` dan `year`
     const userId = req.userId;
 
     if (!transactionType || !["INCOME", "EXPENSE"].includes(transactionType)) {
       throw new BadRequestError("Jenis transaksi tidak valid");
     }
 
+    if (!month || !year) {
+      throw new BadRequestError("Parameter bulan dan tahun wajib diisi");
+    }
+
+    // Parsing dan validasi bulan dan tahun
+    const parsedMonth = parseInt(month) - 1; // Bulan dalam JavaScript berbasis 0
+    const parsedYear = parseInt(year);
+
     if (
-      !timePeriod ||
-      !["day", "week", "month", "year", "all"].includes(timePeriod)
+      isNaN(parsedMonth) ||
+      isNaN(parsedYear) ||
+      parsedMonth < 0 ||
+      parsedMonth > 11
     ) {
-      throw new BadRequestError("Rentang waktu tidak valid");
+      throw new BadRequestError("Parameter bulan atau tahun tidak valid");
     }
 
-    const currentDate = new Date();
-    let startDate, endDate;
-
-    // Tentukan rentang tanggal berdasarkan timePeriod
-    switch (timePeriod) {
-      case "day":
-        startDate = new Date(
-          currentDate.getFullYear(),
-          currentDate.getMonth(),
-          currentDate.getDate()
-        );
-        endDate = new Date(
-          currentDate.getFullYear(),
-          currentDate.getMonth(),
-          currentDate.getDate() + 1
-        );
-        break;
-
-      case "week":
-        const firstDayOfWeek = currentDate.getDate() - currentDate.getDay(); // Mulai minggu (Minggu)
-        startDate = new Date(
-          currentDate.getFullYear(),
-          currentDate.getMonth(),
-          firstDayOfWeek
-        );
-        endDate = new Date(
-          currentDate.getFullYear(),
-          currentDate.getMonth(),
-          firstDayOfWeek + 7
-        );
-        break;
-
-      case "month":
-        startDate = new Date(
-          currentDate.getFullYear(),
-          currentDate.getMonth(),
-          1
-        );
-        endDate = new Date(
-          currentDate.getFullYear(),
-          currentDate.getMonth() + 1,
-          0
-        );
-        break;
-
-      case "year":
-        startDate = new Date(currentDate.getFullYear(), 0, 1);
-        endDate = new Date(currentDate.getFullYear() + 1, 0, 0);
-        break;
-
-      case "all":
-        startDate = undefined; // Tidak ada batas bawah
-        endDate = undefined; // Tidak ada batas atas
-        break;
-
-      default:
-        throw new BadRequestError("Rentang waktu tidak valid");
-    }
+    // Menentukan rentang tanggal untuk bulan dan tahun tertentu
+    const startDate = new Date(parsedYear, parsedMonth, 1);
+    const endDate = new Date(parsedYear, parsedMonth + 1, 0);
 
     const skip = (page - 1) * parseInt(limit);
     const take = parseInt(limit);
 
+    // Query transaksi berdasarkan user, bulan, dan tahun
     const transactions = await prisma.transaction.findMany({
       where: {
         member: { userId },
         transactionType,
-        ...(timePeriod !== "all" && {
-          transactionAt: {
-            gte: startDate,
-            lte: endDate,
-          },
-        }),
+        transactionAt: {
+          gte: startDate,
+          lte: endDate,
+        },
       },
       orderBy: { transactionAt: "desc" },
       skip,
       take,
     });
 
+    // Total jumlah transaksi untuk paginasi
     const totalTransactions = await prisma.transaction.count({
       where: {
         member: { userId },
         transactionType,
-        ...(timePeriod !== "all" && {
-          transactionAt: {
-            gte: startDate,
-            lte: endDate,
-          },
-        }),
+        transactionAt: {
+          gte: startDate,
+          lte: endDate,
+        },
       },
     });
 
@@ -149,14 +241,29 @@ const getRecentTransactions = async (req, res, next) => {
     const userId = req.userId;
     const { page = 1, limit = 10 } = req.query;
 
-    const transactions = await prisma.transaction.findMany({
+    const take = parseInt(limit);
+    const skip = (page - 1) * parseInt(limit);
+
+    const totalTransactions = await prisma.transaction.count({
       where: { member: { userId } },
-      orderBy: { transactionAt: "desc" },
-      skip: (page - 1) * limit,
-      take: parseInt(limit),
     });
 
-    res.json({ data: transactions });
+    const transactions = await prisma.transaction.findMany({
+      where: { member: { userId } },
+      orderBy: { createdAt: "desc" },
+      skip: skip,
+      take: take,
+    });
+
+    res.json({
+      data: transactions,
+      meta: {
+        page: parseInt(page),
+        limit: take,
+        total: totalTransactions,
+        totalPages: Math.ceil(totalTransactions / take),
+      },
+    });
   } catch (error) {
     console.error("Error getting recent transactions:", error);
     next(error);
@@ -233,9 +340,17 @@ const createTransfer = async (req, res, next) => {
       throw new BadRequestError("Semua data wajib diisi");
     }
 
-    const sender = await prisma.member.findUnique({ where: { userId } });
+    const sender = await prisma.member.findUnique({
+      where: { userId },
+      include: {
+        user: true,
+      },
+    });
     const recipient = await prisma.member.findUnique({
       where: { id: recipientId },
+      include: {
+        user: true,
+      },
     });
 
     if (!sender || !recipient)
@@ -264,7 +379,7 @@ const createTransfer = async (req, res, next) => {
           memberId: sender.id,
           amount: -amount,
           transactionType: "EXPENSE",
-          description: `Transfer ke ${recipient.userId}: ${description}`,
+          description: `Transfer ke ${recipient.user.username}: ${description}`,
           category: "Transfer",
           transactionAt: new Date(),
         },
@@ -275,7 +390,7 @@ const createTransfer = async (req, res, next) => {
           memberId: recipient.id,
           amount,
           transactionType: "INCOME",
-          description: `Transfer dari ${sender.userId}: ${description}`,
+          description: `Transfer dari ${sender.user.username}: ${description}`,
           category: "Transfer",
           transactionAt: new Date(),
         },
@@ -291,7 +406,7 @@ const createTransfer = async (req, res, next) => {
 
 const getTotalTransaction = async (req, res, next) => {
   try {
-    const { transactionType, timePeriod } = req.query; // INCOME atau EXPENSE, timePeriod: day, week, month, year
+    const { transactionType, timePeriod = "all" } = req.query; // INCOME atau EXPENSE, timePeriod: day, week, month, year
     const userId = req.userId;
 
     if (!transactionType || !["INCOME", "EXPENSE"].includes(transactionType)) {
@@ -391,9 +506,148 @@ const getTotalTransaction = async (req, res, next) => {
   }
 };
 
+// const getFamilyTransactions = async (req, res, next) => {
+//   try {
+//     const { transactionType, timePeriod, page = 1, limit = 10 } = req.query; // INCOME/EXPENSE, timePeriod: day/week/month/year/all
+//     const userId = req.userId;
+
+//     // Ambil informasi member berdasarkan userId
+//     const member = await prisma.member.findUnique({
+//       where: { userId },
+//       select: {
+//         familyId: true,
+//         canViewFamilyReport: true,
+//       },
+//     });
+
+//     if (!member) throw new NotFoundError("Member tidak ditemukan");
+//     if (!member.canViewFamilyReport) {
+//       throw new ForbiddenError(
+//         "Anda tidak memiliki izin untuk melihat transaksi keluarga"
+//       );
+//     }
+
+//     if (!transactionType || !["INCOME", "EXPENSE"].includes(transactionType)) {
+//       throw new BadRequestError("Jenis transaksi tidak valid");
+//     }
+
+//     if (
+//       !timePeriod ||
+//       !["day", "week", "month", "year", "all"].includes(timePeriod)
+//     ) {
+//       throw new BadRequestError("Rentang waktu tidak valid");
+//     }
+
+//     const currentDate = new Date();
+//     let startDate, endDate;
+
+//     // Tentukan rentang tanggal berdasarkan timePeriod
+//     switch (timePeriod) {
+//       case "day":
+//         startDate = new Date(
+//           currentDate.getFullYear(),
+//           currentDate.getMonth(),
+//           currentDate.getDate()
+//         );
+//         endDate = new Date(
+//           currentDate.getFullYear(),
+//           currentDate.getMonth(),
+//           currentDate.getDate() + 1
+//         );
+//         break;
+
+//       case "week":
+//         const firstDayOfWeek = currentDate.getDate() - currentDate.getDay(); // Mulai minggu (Minggu)
+//         startDate = new Date(
+//           currentDate.getFullYear(),
+//           currentDate.getMonth(),
+//           firstDayOfWeek
+//         );
+//         endDate = new Date(
+//           currentDate.getFullYear(),
+//           currentDate.getMonth(),
+//           firstDayOfWeek + 7
+//         );
+//         break;
+
+//       case "month":
+//         startDate = new Date(
+//           currentDate.getFullYear(),
+//           currentDate.getMonth(),
+//           1
+//         );
+//         endDate = new Date(
+//           currentDate.getFullYear(),
+//           currentDate.getMonth() + 1,
+//           0
+//         );
+//         break;
+
+//       case "year":
+//         startDate = new Date(currentDate.getFullYear(), 0, 1);
+//         endDate = new Date(currentDate.getFullYear() + 1, 0, 0);
+//         break;
+
+//       case "all":
+//         startDate = undefined; // Tidak ada batas bawah
+//         endDate = undefined; // Tidak ada batas atas
+//         break;
+
+//       default:
+//         throw new BadRequestError("Rentang waktu tidak valid");
+//     }
+
+//     const skip = (page - 1) * parseInt(limit);
+//     const take = parseInt(limit);
+
+//     const transactions = await prisma.transaction.findMany({
+//       where: {
+//         familyId: member.familyId,
+//         transactionType,
+//         ...(timePeriod !== "all" && {
+//           transactionAt: {
+//             gte: startDate,
+//             lte: endDate,
+//           },
+//         }),
+//       },
+//       include: { member: true, member: { select: { user: true } } },
+//       orderBy: { transactionAt: "desc" },
+//       skip,
+//       take,
+//     });
+
+//     const totalTransactions = await prisma.transaction.count({
+//       where: {
+//         familyId: member.familyId,
+//         transactionType,
+//         ...(timePeriod !== "all" && {
+//           transactionAt: {
+//             gte: startDate,
+//             lte: endDate,
+//           },
+//         }),
+//       },
+//     });
+
+//     res.json({
+//       data: transactions,
+//       meta: {
+//         page: parseInt(page),
+//         limit: take,
+//         total: totalTransactions,
+//         totalPages: Math.ceil(totalTransactions / take),
+//       },
+//     });
+//   } catch (error) {
+//     console.error("Error getting family transactions:", error);
+//     next(error);
+//   }
+// };
+
 const getFamilyTransactions = async (req, res, next) => {
   try {
-    const { transactionType, timePeriod, page = 1, limit = 10 } = req.query; // INCOME/EXPENSE, timePeriod: day/week/month/year/all
+    const { transactionType, month, year, page = 1, limit = 10 } = req.query; // Menggunakan `month` dan `year`
     const userId = req.userId;
 
     // Ambil informasi member berdasarkan userId
@@ -416,71 +670,26 @@ const getFamilyTransactions = async (req, res, next) => {
       throw new BadRequestError("Jenis transaksi tidak valid");
     }
 
+    if (!month || !year) {
+      throw new BadRequestError("Parameter bulan dan tahun wajib diisi");
+    }
+
+    // Parsing dan validasi bulan dan tahun
+    const parsedMonth = parseInt(month) - 1; // Bulan dalam JavaScript berbasis 0
+    const parsedYear = parseInt(year);
+
     if (
-      !timePeriod ||
-      !["day", "week", "month", "year", "all"].includes(timePeriod)
+      isNaN(parsedMonth) ||
+      isNaN(parsedYear) ||
+      parsedMonth < 0 ||
+      parsedMonth > 11
     ) {
-      throw new BadRequestError("Rentang waktu tidak valid");
+      throw new BadRequestError("Parameter bulan atau tahun tidak valid");
     }
 
-    const currentDate = new Date();
-    let startDate, endDate;
-
-    // Tentukan rentang tanggal berdasarkan timePeriod
-    switch (timePeriod) {
-      case "day":
-        startDate = new Date(
-          currentDate.getFullYear(),
-          currentDate.getMonth(),
-          currentDate.getDate()
-        );
-        endDate = new Date(
-          currentDate.getFullYear(),
-          currentDate.getMonth(),
-          currentDate.getDate() + 1
-        );
-        break;
-
-      case "week":
-        const firstDayOfWeek = currentDate.getDate() - currentDate.getDay(); // Mulai minggu (Minggu)
-        startDate = new Date(
-          currentDate.getFullYear(),
-          currentDate.getMonth(),
-          firstDayOfWeek
-        );
-        endDate = new Date(
-          currentDate.getFullYear(),
-          currentDate.getMonth(),
-          firstDayOfWeek + 7
-        );
-        break;
-
-      case "month":
-        startDate = new Date(
-          currentDate.getFullYear(),
-          currentDate.getMonth(),
-          1
-        );
-        endDate = new Date(
-          currentDate.getFullYear(),
-          currentDate.getMonth() + 1,
-          0
-        );
-        break;
-
-      case "year":
-        startDate = new Date(currentDate.getFullYear(), 0, 1);
-        endDate = new Date(currentDate.getFullYear() + 1, 0, 0);
-        break;
-
-      case "all":
-        startDate = undefined; // Tidak ada batas bawah
-        endDate = undefined; // Tidak ada batas atas
-        break;
-
-      default:
-        throw new BadRequestError("Rentang waktu tidak valid");
-    }
+    // Menentukan rentang tanggal untuk bulan dan tahun tertentu
+    const startDate = new Date(parsedYear, parsedMonth, 1);
+    const endDate = new Date(parsedYear, parsedMonth + 1, 0);
 
     const skip = (page - 1) * parseInt(limit);
     const take = parseInt(limit);
@@ -489,14 +698,12 @@ const getFamilyTransactions = async (req, res, next) => {
       where: {
         familyId: member.familyId,
         transactionType,
-        ...(timePeriod !== "all" && {
-          transactionAt: {
-            gte: startDate,
-            lte: endDate,
-          },
-        }),
+        transactionAt: {
+          gte: startDate,
+          lte: endDate,
+        },
       },
-      include: { member: true, member: { select: { user: true } } },
+      include: { member: { select: { user: true } } },
       orderBy: { transactionAt: "desc" },
       skip,
       take,
@@ -506,12 +713,10 @@ const getFamilyTransactions = async (req, res, next) => {
       where: {
         familyId: member.familyId,
         transactionType,
-        ...(timePeriod !== "all" && {
-          transactionAt: {
-            gte: startDate,
-            lte: endDate,
-          },
-        }),
+        transactionAt: {
+          gte: startDate,
+          lte: endDate,
+        },
       },
     });
 

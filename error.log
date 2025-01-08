@@ -1,40 +1,91 @@
-{"level":"error","message":"400 - Unexpected token } in JSON at position 36 - /auth/verify - POST - ::1"}
-{"level":"error","message":"400 - Invalid email format - /auth/register - POST - ::1"}
-{"level":"error","message":"500 - BadRequestError is not defined - /family - POST - ::1"}
-{"level":"error","message":"500 - UnauthorizedError is not defined - /auth/login - POST - ::1"}
-{"level":"error","message":"500 - UnauthorizedError is not defined - /auth/login - POST - ::1"}
+{"level":"error","message":"401 - Identifier atau password tidak valid - /auth/login - POST - ::ffff:127.0.0.1"}
+{"level":"error","message":"401 - Identifier atau password tidak valid - /auth/login - POST - ::ffff:127.0.0.1"}
+{"level":"error","message":"401 - Identifier atau password tidak valid - /auth/login - POST - ::ffff:127.0.0.1"}
+{"level":"error","message":"401 - Identifier atau password tidak valid - /auth/login - POST - ::ffff:127.0.0.1"}
+{"level":"error","message":"401 - Identifier atau password tidak valid - /auth/login - POST - ::ffff:127.0.0.1"}
+{"level":"error","message":"401 - Identifier atau password tidak valid - /auth/login - POST - ::ffff:127.0.0.1"}
 {"level":"error","message":"401 - Identifier atau password tidak valid - /auth/login - POST - ::1"}
-{"level":"error","message":"400 - Masukan nama keluarga - /family - POST - ::1"}
-{"level":"error","message":"500 - \nInvalid `prisma.family.findUnique()` invocation in\nD:\\NodeJs\\family_financial_tracker\\controllers\\family.controller.js:13:48\n\n  10   throw new BadRequestError(\"Masukan nama keluarga\");\n  11 }\n  12 \n→ 13 const existingFamily = await prisma.family.findUnique({\n       where: {\n         name: \"keluarga cemara\",\n     ?   id?: Int,\n     ?   AND?: FamilyWhereInput | FamilyWhereInput[],\n     ?   OR?: FamilyWhereInput[],\n     ?   NOT?: FamilyWhereInput | FamilyWhereInput[],\n     ?   familyCode?: StringFilter | String,\n     ?   familyHeadId?: IntFilter | Int,\n     ?   createdAt?: DateTimeFilter | DateTime,\n     ?   updatedAt?: DateTimeFilter | DateTime,\n     ?   members?: MemberListRelationFilter,\n     ?   Transaction?: TransactionListRelationFilter\n       }\n     })\n\nArgument `where` of type FamilyWhereUniqueInput needs at least one of `id` arguments. Available options are marked with ?. - /family - POST - ::1"}
-{"level":"error","message":"400 - Masukan nama keluarga dan role anda - /family - POST - ::1"}
-{"level":"error","message":"500 - \nInvalid `prisma.family.findUnique()` invocation in\nD:\\NodeJs\\family_financial_tracker\\controllers\\family.controller.js:13:48\n\n  10   throw new BadRequestError(\"Masukan nama keluarga dan role anda\");\n  11 }\n  12 \n→ 13 const existingFamily = await prisma.family.findUnique({\n       where: {\n         name: \"keluarga cemara\",\n     ?   id?: Int,\n     ?   AND?: FamilyWhereInput | FamilyWhereInput[],\n     ?   OR?: FamilyWhereInput[],\n     ?   NOT?: FamilyWhereInput | FamilyWhereInput[],\n     ?   familyCode?: StringFilter | String,\n     ?   familyHeadId?: IntFilter | Int,\n     ?   createdAt?: DateTimeFilter | DateTime,\n     ?   updatedAt?: DateTimeFilter | DateTime,\n     ?   members?: MemberListRelationFilter,\n     ?   Transaction?: TransactionListRelationFilter\n       }\n     })\n\nArgument `where` of type FamilyWhereUniqueInput needs at least one of `id` arguments. Available options are marked with ?. - /family - POST - ::1"}
-{"level":"error","message":"500 - \nInvalid `prisma.family.findUnique()` invocation in\nD:\\NodeJs\\family_financial_tracker\\controllers\\family.controller.js:13:48\n\n  10   throw new BadRequestError(\"Masukan nama keluarga dan role anda\");\n  11 }\n  12 \n→ 13 const existingFamily = await prisma.family.findUnique({\n       where: {\n         name: \"keluarga cemara\",\n     ?   id?: Int,\n     ?   AND?: FamilyWhereInput | FamilyWhereInput[],\n     ?   OR?: FamilyWhereInput[],\n     ?   NOT?: FamilyWhereInput | FamilyWhereInput[],\n     ?   familyCode?: StringFilter | String,\n     ?   familyHeadId?: IntFilter | Int,\n     ?   createdAt?: DateTimeFilter | DateTime,\n     ?   updatedAt?: DateTimeFilter | DateTime,\n     ?   members?: MemberListRelationFilter,\n     ?   Transaction?: TransactionListRelationFilter\n       }\n     })\n\nArgument `where` of type FamilyWhereUniqueInput needs at least one of `id` arguments. Available options are marked with ?. - /family - POST - ::1"}
-{"level":"error","message":"400 - Password must be at least 8 characters long and include at least 1 lowercase letter, 1 uppercase letter, 1 number, and 1 special character - /auth/register - POST - ::1"}
-{"level":"error","message":"401 - User belum diverifikasi - /auth/login - POST - ::1"}
-{"level":"error","message":"500 - \nInvalid `prisma.family.findUnique()` invocation in\nD:\\NodeJs\\family_financial_tracker\\controllers\\family.controller.js:57:40\n\n  54   throw new BadRequestError(\"Masukan kode keluarga\");\n  55 }\n  56 \n→ 57 const family = await prisma.family.findUnique({\n       where: {\n         familyCode: \"cm5hmydkc0000so2wyvm75sxs\",\n     ?   id?: Int,\n     ?   name?: String,\n     ?   AND?: FamilyWhereInput | FamilyWhereInput[],\n     ?   OR?: FamilyWhereInput[],\n     ?   NOT?: FamilyWhereInput | FamilyWhereInput[],\n     ?   familyHeadId?: IntFilter | Int,\n     ?   createdAt?: DateTimeFilter | DateTime,\n     ?   updatedAt?: DateTimeFilter | DateTime,\n     ?   members?: MemberListRelationFilter,\n     ?   Transaction?: TransactionListRelationFilter\n       }\n     })\n\nArgument `where` of type FamilyWhereUniqueInput needs at least one of `id` or `name` arguments. Available options are marked with ?. - /family/join - POST - ::1"}
-{"level":"error","message":"500 - \nInvalid `prisma.member.create()` invocation in\nD:\\NodeJs\\family_financial_tracker\\controllers\\family.controller.js:75:40\n\n  72 }\n  73 \n  74 // Buat member baru untuk user yang bergabung\n→ 75 const member = await prisma.member.create(\nUnique constraint failed on the constraint: `Member_familyId_key` - /family/join - POST - ::1"}
-{"level":"error","message":"404 - Halaman tidak ditemukan - /family/members - POST - ::1"}
-{"level":"error","message":"401 - Identifier atau password tidak valid - /auth/login - POST - ::1"}
-{"level":"error","message":"400 - Semua data wajib diisi - /transaction - POST - ::1"}
-{"level":"error","message":"403 - Anda tidak memiliki izin untuk menambah pemasukan - /transaction - POST - ::1"}
+{"level":"error","message":"401 - Identifier atau password tidak valid - /auth/login - POST - ::ffff:127.0.0.1"}
+{"level":"error","message":"401 - Identifier atau password tidak valid - /auth/login - POST - ::ffff:127.0.0.1"}
+{"level":"error","message":"400 - Email atau username sudah terdaftar dan terverifikasi - /auth/register - POST - ::1"}
+{"level":"error","message":"400 - Email atau username sudah terdaftar dan terverifikasi - /auth/register - POST - ::1"}
+{"level":"error","message":"401 - Identifier atau password tidak valid - /auth/login - POST - ::ffff:127.0.0.1"}
+{"level":"error","message":"400 - Email atau username sudah terdaftar dan terverifikasi - /auth/register - POST - ::1"}
+{"level":"error","message":"400 - Invalid email format - /auth/register - POST - ::ffff:127.0.0.1"}
+{"level":"error","message":"400 - Masukan email atau username dan password - /auth/login - POST - ::ffff:127.0.0.1"}
+{"level":"error","message":"400 - Masukan username, email, password, dan konfirmasi password - /auth/register - POST - ::ffff:127.0.0.1"}
+{"level":"error","message":"400 - Masukan username, email, password, dan konfirmasi password - /auth/register - POST - ::ffff:127.0.0.1"}
+{"level":"error","message":"400 - Masukan email atau username dan password - /auth/login - POST - ::ffff:127.0.0.1"}
+{"level":"error","message":"400 - Anda sudah menjadi anggota keluarga ini - /family/join - POST - ::1"}
+{"level":"error","message":"400 - Anda sudah menjadi anggota keluarga ini - /family/join - POST - ::1"}
+{"level":"error","message":"400 - Email atau username sudah terdaftar dan terverifikasi - /auth/register - POST - ::ffff:127.0.0.1"}
+{"level":"error","message":"401 - Identifier atau password tidak valid - /auth/login - POST - ::ffff:127.0.0.1"}
+{"level":"error","message":"401 - User belum diverifikasi - /auth/login - POST - ::ffff:127.0.0.1"}
+{"level":"error","message":"401 - Kode verifikasi tidak valid - /auth/verify - POST - ::ffff:127.0.0.1"}
+{"level":"error","message":"400 - Email atau username sudah terdaftar dan terverifikasi - /auth/register - POST - ::ffff:127.0.0.1"}
+{"level":"error","message":"400 - Email atau username sudah terdaftar dan terverifikasi - /auth/register - POST - ::ffff:127.0.0.1"}
+{"level":"error","message":"400 - Email atau username sudah terdaftar dan terverifikasi - /auth/register - POST - ::ffff:127.0.0.1"}
+{"level":"error","message":"404 - Halaman tidak ditemukan - /join-family - POST - ::ffff:127.0.0.1"}
+{"level":"error","message":"400 - Masukan nama keluarga dan role anda - /family - POST - ::ffff:127.0.0.1"}
+{"level":"error","message":"400 - Masukan nama keluarga dan role anda - /family - POST - ::ffff:127.0.0.1"}
+{"level":"error","message":"400 - Masukan nama keluarga dan role anda - /family - POST - ::ffff:127.0.0.1"}
+{"level":"error","message":"400 - Masukan nama keluarga dan role anda - /family - POST - ::ffff:127.0.0.1"}
+{"level":"error","message":"400 - Masukan nama keluarga dan role anda - /family - POST - ::ffff:127.0.0.1"}
+{"level":"error","message":"400 - Masukan nama keluarga dan role anda - /family - POST - ::ffff:127.0.0.1"}
+{"level":"error","message":"400 - Anda sudah menjadi anggota keluarga ini - /family/join - POST - ::ffff:127.0.0.1"}
+{"level":"error","message":"404 - Halaman tidak ditemukan - /family/create - POST - ::ffff:127.0.0.1"}
+{"level":"error","message":"400 - Masukan nama keluarga dan role anda - /family - POST - ::ffff:127.0.0.1"}
+{"level":"error","message":"400 - Nama keluarga sudah ada - /family - POST - ::1"}
+{"level":"error","message":"500 - \nInvalid `prisma.member.create()` invocation in\nD:\\NodeJs\\family_financial_tracker\\controllers\\family.controller.js:30:40\n\n  27 });\n  28 \n  29 // Buat member untuk user yang membuat keluarga\n→ 30 const member = await prisma.member.create(\nUnique constraint failed on the constraint: `Member_userId_key` - /family - POST - ::1"}
+{"level":"error","message":"400 - Nama keluarga sudah ada - /family - POST - ::1"}
+{"level":"error","message":"500 - \nInvalid `prisma.member.create()` invocation in\nD:\\NodeJs\\family_financial_tracker\\controllers\\family.controller.js:30:40\n\n  27 });\n  28 \n  29 // Buat member untuk user yang membuat keluarga\n→ 30 const member = await prisma.member.create(\nUnique constraint failed on the constraint: `Member_userId_key` - /family - POST - ::1"}
+{"level":"error","message":"401 - User belum diverifikasi - /auth/login - POST - ::ffff:127.0.0.1"}
+{"level":"error","message":"401 - User belum diverifikasi - /auth/login - POST - ::ffff:127.0.0.1"}
+{"level":"error","message":"500 - \nInvalid `prisma.member.create()` invocation in\nD:\\NodeJs\\family_financial_tracker\\controllers\\family.controller.js:82:40\n\n  79 }\n  80 \n  81 // Buat member baru untuk user yang bergabung\n→ 82 const member = await prisma.member.create(\nUnique constraint failed on the constraint: `Member_userId_key` - /family/join - POST - ::ffff:127.0.0.1"}
+{"level":"error","message":"404 - Halaman tidak ditemukan - /dashboard/total?transactionType=EXPENSE&timePeriod=all - GET - ::ffff:127.0.0.1"}
+{"level":"error","message":"404 - Halaman tidak ditemukan - /dashboard/total?transactionType=INCOME&timePeriod=all - GET - ::1"}
+{"level":"error","message":"404 - Halaman tidak ditemukan - /dashboard/total?transactionType=EXPENSE&timePeriod=all - GET - ::ffff:127.0.0.1"}
+{"level":"error","message":"404 - Halaman tidak ditemukan - /dashboard/total?transactionType=INCOME&timePeriod=all - GET - ::ffff:127.0.0.1"}
+{"level":"error","message":"404 - Halaman tidak ditemukan - /dashboard/total?transactionType=EXPENSE&timePeriod=all - GET - ::ffff:127.0.0.1"}
+{"level":"error","message":"404 - Halaman tidak ditemukan - /dashboard/total?transactionType=INCOME&timePeriod=all - GET - ::ffff:127.0.0.1"}
+{"level":"error","message":"404 - Halaman tidak ditemukan - /dashboard/total?transactionType=EXPENSE&timePeriod=all - GET - ::ffff:127.0.0.1"}
+{"level":"error","message":"404 - Halaman tidak ditemukan - /dashboard/total?transactionType=INCOME&timePeriod=all - GET - ::ffff:127.0.0.1"}
+{"level":"error","message":"400 - Saldo tidak mencukupi untuk melakukan pengeluaran - /transaction - POST - ::ffff:127.0.0.1"}
+{"level":"error","message":"400 - Saldo tidak mencukupi untuk melakukan pengeluaran - /transaction - POST - ::ffff:127.0.0.1"}
 {"level":"error","message":"400 - Saldo tidak mencukupi untuk melakukan pengeluaran - /transaction - POST - ::1"}
-{"level":"error","message":"403 - Anda tidak memiliki izin untuk menambah pemasukan - /transaction - POST - ::1"}
-{"level":"error","message":"403 - Anda tidak memiliki izin untuk menambah pemasukan - /transaction - POST - ::1"}
-{"level":"error","message":"400 - Semua data wajib diisi - /transaction/transfer - POST - ::1"}
-{"level":"error","message":"404 - Halaman tidak ditemukan - /transaction/history - POST - ::1"}
-{"level":"error","message":"404 - Halaman tidak ditemukan - /transaction/montly - GET - ::1"}
-{"level":"error","message":"404 - Halaman tidak ditemukan - /transaction/total - GET - ::1"}
-{"level":"error","message":"400 - Jenis transaksi tidak valid - /transaction/total - GET - ::1"}
-{"level":"error","message":"400 - Jenis transaksi tidak valid - /transaction/total - GET - ::1"}
-{"level":"error","message":"400 - Jenis transaksi tidak valid - /transaction/total - GET - ::1"}
-{"level":"error","message":"400 - Rentang waktu tidak valid - /transaction/total?transactionType=EXPENSE&timePeriod=all - GET - ::1"}
-{"level":"error","message":"400 - Rentang waktu tidak valid - /transaction/total?transactionType=EXPENSE&timePeriod=all - GET - ::1"}
-{"level":"error","message":"400 - Jenis transaksi tidak valid - /transaction/history - GET - ::1"}
-{"level":"error","message":"400 - Rentang waktu tidak valid - /transaction/history?transactionType=INCOME&timePeriod=ALL - GET - ::1"}
-{"level":"error","message":"500 - \nInvalid `prisma.member.findUnique()` invocation in\nD:\\NodeJs\\family_financial_tracker\\controllers\\transaction.controller.js:400:40\n\n  397 const userId = req.userId;\n  398 \n  399 // Ambil informasi member berdasarkan userId\n→ 400 const member = await prisma.member.findUnique({\n        where: {\n          userId: 2\n        },\n        select: {\n          familyId: true,\n          canViewFamilyTransactions: true,\n          ~~~~~~~~~~~~~~~~~~~~~~~~~\n      ?   id?: true,\n      ?   userId?: true,\n      ?   role?: true,\n      ?   isFamilyHead?: true,\n      ?   canAddIncome?: true,\n      ?   canViewFamilyReport?: true,\n      ?   balance?: true,\n      ?   createdAt?: true,\n      ?   updatedAt?: true,\n      ?   user?: true,\n      ?   family?: true,\n      ?   Transaction?: true,\n      ?   _count?: true\n        }\n      })\n\nUnknown field `canViewFamilyTransactions` for select statement on model `Member`. Available options are marked with ?. - /transaction/history/family?transactionType=EXPENSE&timePeriod=all&page=1&limit=1 - GET - ::1"}
-{"level":"error","message":"403 - Anda tidak memiliki izin untuk melihat transaksi keluarga - /transaction/history/family?transactionType=EXPENSE&timePeriod=all&page=1&limit=1 - GET - ::1"}
-{"level":"error","message":"500 - \nInvalid `prisma.transaction.findMany()` invocation in\nD:\\NodeJs\\family_financial_tracker\\controllers\\transaction.controller.js:488:51\n\n  485 const skip = (page - 1) * parseInt(limit);\n  486 const take = parseInt(limit);\n  487 \n→ 488 const transactions = await prisma.transaction.findMany({\n        where: {\n          familyId: 1,\n          transactionType: \"EXPENSE\"\n        },\n        orderBy: {\n          transactionAt: \"desc\"\n        },\n        includes: {\n        ~~~~~~~~\n          member: {\n            select: {\n              userId: true\n            }\n          }\n        },\n        skip: 1,\n        take: 1,\n      ? cursor?: TransactionWhereUniqueInput,\n      ? distinct?: TransactionScalarFieldEnum | TransactionScalarFieldEnum[]\n      })\n\nUnknown argument `includes`. Available options are marked with ?. - /transaction/history/family?transactionType=EXPENSE&timePeriod=all&page=2&limit=1 - GET - ::1"}
-{"level":"error","message":"500 - \nInvalid `prisma.transaction.findMany()` invocation in\nD:\\NodeJs\\family_financial_tracker\\controllers\\transaction.controller.js:488:51\n\n  485 const skip = (page - 1) * parseInt(limit);\n  486 const take = parseInt(limit);\n  487 \n→ 488 const transactions = await prisma.transaction.findMany({\n        where: {\n          familyId: 1,\n          transactionType: \"EXPENSE\"\n        },\n        orderBy: {\n          transactionAt: \"desc\"\n        },\n        includes: {\n        ~~~~~~~~\n          member: true\n        },\n        skip: 1,\n        take: 1,\n      ? cursor?: TransactionWhereUniqueInput,\n      ? distinct?: TransactionScalarFieldEnum | TransactionScalarFieldEnum[]\n      })\n\nUnknown argument `includes`. Available options are marked with ?. - /transaction/history/family?transactionType=EXPENSE&timePeriod=all&page=2&limit=1 - GET - ::1"}
-{"level":"error","message":"500 - \nInvalid `prisma.transaction.findMany()` invocation in\nD:\\NodeJs\\family_financial_tracker\\controllers\\transaction.controller.js:488:51\n\n  485 const skip = (page - 1) * parseInt(limit);\n  486 const take = parseInt(limit);\n  487 \n→ 488 const transactions = await prisma.transaction.findMany({\n        where: {\n          familyId: 1,\n          transactionType: \"EXPENSE\"\n        },\n        includes: {\n        ~~~~~~~~\n          user: true\n        },\n        orderBy: {\n          transactionAt: \"desc\"\n        },\n        skip: 1,\n        take: 1,\n      ? cursor?: TransactionWhereUniqueInput,\n      ? distinct?: TransactionScalarFieldEnum | TransactionScalarFieldEnum[]\n      })\n\nUnknown argument `includes`. Available options are marked with ?. - /transaction/history/family?transactionType=EXPENSE&timePeriod=all&page=2&limit=1 - GET - ::1"}
-{"level":"error","message":"500 - \nInvalid `prisma.transaction.findMany()` invocation in\nD:\\NodeJs\\family_financial_tracker\\controllers\\transaction.controller.js:488:51\n\n  485 const skip = (page - 1) * parseInt(limit);\n  486 const take = parseInt(limit);\n  487 \n→ 488 const transactions = await prisma.transaction.findMany({\n        where: {\n          familyId: 1,\n          transactionType: \"EXPENSE\"\n        },\n        includes: {\n        ~~~~~~~~\n          member: true\n        },\n        orderBy: {\n          transactionAt: \"desc\"\n        },\n        skip: 1,\n        take: 1,\n      ? cursor?: TransactionWhereUniqueInput,\n      ? distinct?: TransactionScalarFieldEnum | TransactionScalarFieldEnum[]\n      })\n\nUnknown argument `includes`. Available options are marked with ?. - /transaction/history/family?transactionType=EXPENSE&timePeriod=all&page=2&limit=1 - GET - ::1"}
-{"level":"error","message":"400 - ID member yang akan diubah diperlukan - /family/grant - POST - ::1"}
+{"level":"error","message":"400 - Saldo tidak mencukupi untuk melakukan pengeluaran - /transaction - POST - ::ffff:127.0.0.1"}
+{"level":"error","message":"403 - Saldo tidak mencukupi untuk transfer - /transaction/transfer - POST - ::ffff:127.0.0.1"}
+{"level":"error","message":"500 - Cannot read properties of undefined (reading 'username') - /transaction/transfer - POST - ::ffff:127.0.0.1"}
+{"level":"error","message":"401 - Password lama tidak valid - /auth/password - PUT - ::1"}
+{"level":"error","message":"401 - Identifier atau password tidak valid - /auth/login - POST - ::ffff:127.0.0.1"}
+{"level":"error","message":"401 - Identifier atau password tidak valid - /auth/login - POST - ::ffff:127.0.0.1"}
+{"level":"error","message":"401 - Identifier atau password tidak valid - /auth/login - POST - ::ffff:127.0.0.1"}
+{"level":"error","message":"401 - Identifier atau password tidak valid - /auth/login - POST - ::ffff:127.0.0.1"}
+{"level":"error","message":"400 - Masukan identifier, password lama, password baru, dan konfirmasi password baru - /auth/password - PUT - ::ffff:127.0.0.1"}
+{"level":"error","message":"400 - Masukan identifier, password lama, password baru, dan konfirmasi password baru - /auth/password - PUT - ::1"}
+{"level":"error","message":"400 - Masukan identifier, password lama, password baru, dan konfirmasi password baru - /auth/password - PUT - ::ffff:127.0.0.1"}
+{"level":"error","message":"400 - Masukan identifier, password lama, password baru, dan konfirmasi password baru - /auth/password - PUT - ::1"}
+{"level":"error","message":"500 - month is not defined - /transaction/history?transactionType=EXPENSE&timePeriod=all&page=1&limit=10&month=1&year=2025 - GET - ::1"}
+{"level":"error","message":"401 - Identifier atau password tidak valid - /auth/login - POST - ::ffff:127.0.0.1"}
+{"level":"error","message":"400 - Parameter bulan dan tahun wajib diisi - /transaction/history?transactionType=INCOME&timePeriod=all&page=1&limit=10 - GET - ::ffff:127.0.0.1"}
+{"level":"error","message":"400 - Parameter bulan dan tahun wajib diisi - /transaction/history?transactionType=EXPENSE&timePeriod=all&page=1&limit=10 - GET - ::1"}
+{"level":"error","message":"400 - Parameter bulan dan tahun wajib diisi - /transaction/history?transactionType=EXPENSE&timePeriod=all&page=1&limit=10 - GET - ::ffff:127.0.0.1"}
+{"level":"error","message":"400 - Parameter bulan dan tahun wajib diisi - /transaction/history?transactionType=INCOME&timePeriod=all&page=1&limit=10 - GET - ::ffff:127.0.0.1"}
+{"level":"error","message":"400 - Parameter bulan dan tahun wajib diisi - /transaction/history?transactionType=EXPENSE&timePeriod=all&page=1&limit=10 - GET - ::ffff:127.0.0.1"}
+{"level":"error","message":"400 - Parameter bulan dan tahun wajib diisi - /transaction/history?transactionType=INCOME&timePeriod=all&page=1&limit=10 - GET - ::ffff:127.0.0.1"}
+{"level":"error","message":"400 - Parameter bulan dan tahun wajib diisi - /transaction/history?transactionType=EXPENSE&timePeriod=all&page=1&limit=10 - GET - ::ffff:127.0.0.1"}
+{"level":"error","message":"400 - Parameter bulan dan tahun wajib diisi - /transaction/history?transactionType=INCOME&timePeriod=all&page=1&limit=10 - GET - ::ffff:127.0.0.1"}
+{"level":"error","message":"400 - Parameter bulan dan tahun wajib diisi - /transaction/history?transactionType=INCOME&timePeriod=all&page=1&limit=10 - GET - ::ffff:127.0.0.1"}
+{"level":"error","message":"400 - Parameter bulan dan tahun wajib diisi - /transaction/history?transactionType=EXPENSE&timePeriod=all&page=1&limit=10 - GET - ::1"}
+{"level":"error","message":"400 - Parameter bulan dan tahun wajib diisi - /transaction/history?transactionType=EXPENSE&timePeriod=all&page=1&limit=10 - GET - ::ffff:127.0.0.1"}
+{"level":"error","message":"400 - Parameter bulan dan tahun wajib diisi - /transaction/history?transactionType=EXPENSE&timePeriod=all&page=1&limit=10 - GET - ::ffff:127.0.0.1"}
+{"level":"error","message":"400 - Parameter bulan dan tahun wajib diisi - /transaction/history?transactionType=INCOME&timePeriod=all&page=1&limit=10 - GET - ::ffff:127.0.0.1"}
+{"level":"error","message":"400 - Parameter bulan dan tahun wajib diisi - /transaction/history?transactionType=EXPENSE&timePeriod=all&page=1&limit=10 - GET - ::ffff:127.0.0.1"}
+{"level":"error","message":"400 - Parameter bulan dan tahun wajib diisi - /transaction/history?transactionType=INCOME&timePeriod=all&page=1&limit=10 - GET - ::ffff:127.0.0.1"}
+{"level":"error","message":"400 - Parameter bulan dan tahun wajib diisi - /transaction/history?transactionType=EXPENSE&timePeriod=all&page=1&limit=10 - GET - ::ffff:127.0.0.1"}
+{"level":"error","message":"400 - Parameter bulan dan tahun wajib diisi - /transaction/history?transactionType=INCOME&timePeriod=all&page=1&limit=10 - GET - ::1"}
+{"level":"error","message":"400 - Parameter bulan dan tahun wajib diisi - /transaction/history?transactionType=EXPENSE&timePeriod=all&page=1&limit=10 - GET - ::ffff:127.0.0.1"}
+{"level":"error","message":"400 - Parameter bulan dan tahun wajib diisi - /transaction/history?transactionType=INCOME&timePeriod=all&page=1&limit=10 - GET - ::ffff:127.0.0.1"}
+{"level":"error","message":"400 - Parameter bulan dan tahun wajib diisi - /transaction/history?transactionType=EXPENSE&timePeriod=all&page=1&limit=10 - GET - ::ffff:127.0.0.1"}
+{"level":"error","message":"400 - Parameter bulan dan tahun wajib diisi - /transaction/history?transactionType=INCOME&timePeriod=all&page=1&limit=10 - GET - ::ffff:127.0.0.1"}
+{"level":"error","message":"400 - Email atau username sudah terdaftar dan terverifikasi - /auth/register - POST - ::1"}

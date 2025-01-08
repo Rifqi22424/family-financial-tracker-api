@@ -107,7 +107,9 @@ const verifyUser = async (req, res, next) => {
       },
     });
 
-    res.json({ message: "User berhasil diverifikasi." });
+    const token = generateToken(user.id);
+
+    res.json({ message: "User berhasil diverifikasi.", token });
   } catch (error) {
     console.error("Error during user verification:", error);
     next(error);
@@ -194,7 +196,6 @@ const loginUser = async (req, res, next) => {
         id: user.id,
         username: user.username,
         email: user.email,
-        profile: user.profile,
       },
     });
   } catch (error) {

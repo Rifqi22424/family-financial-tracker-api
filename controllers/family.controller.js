@@ -45,7 +45,7 @@ const createFamily = async (req, res, next) => {
       },
     });
 
-    res.json({ data: { family, member } });
+    res.json({ message: "family berhasil dibuat", data: { family, member } });
   } catch (error) {
     console.error("Error during family creation:", error);
     next(error);
@@ -94,7 +94,10 @@ const joinFamily = async (req, res, next) => {
       },
     });
 
-    res.json({ data: { family, member } });
+    res.json({
+      message: "Berhasil masuk kedalam keluarga",
+      data: { family, member },
+    });
   } catch (error) {
     console.error("Error during family joining:", error);
     next(error);
