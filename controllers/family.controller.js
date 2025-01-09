@@ -1,10 +1,13 @@
 const prisma = require("../prisma/client");
 const { BadRequestError, NotFoundError } = require("../utils/errors");
+const { generateUniqueId } = require("../utils/generate.unique.id");
 
 const createFamily = async (req, res, next) => {
   try {
     const { name, role } = req.body;
     const userId = req.userId;
+
+    const familyCode = generateUniqueId();
 
     if (!name || !role) {
       throw new BadRequestError("Masukan nama keluarga dan role anda");
@@ -23,6 +26,7 @@ const createFamily = async (req, res, next) => {
       data: {
         name,
         familyHeadId: userId,
+        familyCode,
       },
     });
 
@@ -116,7 +120,10 @@ const getFamilyMembers = async (req, res, next) => {
     if (!member) throw new NotFoundError("Member tidak ditemukan");
 
     const members = await prisma.member.findMany({
-      where: { familyId: member.familyId },
+      where: {
+        familyId: member.familyId,
+        userId: { not: userId },
+      },
       include: { user: true },
     });
 
@@ -184,9 +191,53 @@ const updateMemberPermissions = async (req, res, next) => {
   }
 };
 
+const getFamilyCode = async (req, res, next) => {
+  try {
+    const userId = req.userId; // ID user yang membuat request
+
+    // Cari informasi member berdasarkan userId
+    const member = await prisma.member.findUnique({
+      where: { userId },
+      select: {
+        familyId: true,
+        isFamilyHead: true,
+      },
+    });
+
+    // Validasi apakah member ditemukan
+    if (!member) {
+      throw new NotFoundError("Anda bukan anggota keluarga");
+    }
+
+    // Validasi apakah user adalah kepala keluarga
+    // if (!member.isFamilyHead) {
+    //   throw new ForbiddenError("Hanya kepala keluarga yang dapat melihat kode keluarga");
+    // }
+
+    // Ambil family berdasarkan familyId dari member
+    const family = await prisma.family.findUnique({
+      where: { id: member.familyId },
+      select: { familyCode: true },
+    });
+
+    // Validasi apakah keluarga ditemukan
+    if (!family) {
+      throw new NotFoundError("Keluarga tidak ditemukan");
+    }
+
+    // Kembalikan familyCode
+    res.json({ data: { familyCode: family.familyCode } });
+  } catch (error) {
+    console.error("Error getting family code:", error);
+    next(error); // Pastikan middleware error handler menangani ini dengan baik
+  }
+};
+
+
 module.exports = {
   createFamily,
   joinFamily,
+  getFamilyCode,
   getFamilyMembers,
   updateMemberPermissions,
 };

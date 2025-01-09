@@ -89,3 +89,14 @@
 {"level":"error","message":"400 - Parameter bulan dan tahun wajib diisi - /transaction/history?transactionType=EXPENSE&timePeriod=all&page=1&limit=10 - GET - ::ffff:127.0.0.1"}
 {"level":"error","message":"400 - Parameter bulan dan tahun wajib diisi - /transaction/history?transactionType=INCOME&timePeriod=all&page=1&limit=10 - GET - ::ffff:127.0.0.1"}
 {"level":"error","message":"400 - Email atau username sudah terdaftar dan terverifikasi - /auth/register - POST - ::1"}
+{"level":"error","message":"401 - Identifier atau password tidak valid - /auth/login - POST - ::ffff:127.0.0.1"}
+{"level":"error","message":"400 - Saldo tidak mencukupi untuk melakukan pengeluaran - /transaction - POST - ::ffff:127.0.0.1"}
+{"level":"error","message":"404 - Halaman tidak ditemukan - /family - GET - ::1"}
+{"level":"error","message":"404 - Anda bukan anggota keluarga - /family - GET - ::1"}
+{"level":"error","message":"401 - Identifier atau password tidak valid - /auth/login - POST - ::ffff:127.0.0.1"}
+{"level":"error","message":"401 - Identifier atau password tidak valid - /auth/login - POST - ::ffff:127.0.0.1"}
+{"level":"error","message":"401 - Identifier atau password tidak valid - /auth/login - POST - ::ffff:127.0.0.1"}
+{"level":"error","message":"401 - Identifier atau password tidak valid - /auth/login - POST - ::ffff:127.0.0.1"}
+{"level":"error","message":"401 - Identifier atau password tidak valid - /auth/login - POST - ::ffff:127.0.0.1"}
+{"level":"error","message":"500 - generateUniqueId is not defined - /family - POST - ::ffff:127.0.0.1"}
+{"level":"error","message":"401 - Identifier atau password tidak valid - /auth/login - POST - ::ffff:127.0.0.1"}

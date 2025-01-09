@@ -57,7 +57,8 @@ model Member {
 model Family {
   id           Int      @id @default(autoincrement())
   name         String   @unique
-  familyCode   String   @unique @default(cuid())
+  familyCode   String   @unique 
+  // @default(cuid())
   familyHeadId Int
   createdAt    DateTime @default(now())
   updatedAt    DateTime @updatedAt
