@@ -22,7 +22,6 @@ const getBalance = async (req, res, next) => {
   }
 };
 
-
 const getTransactions = async (req, res, next) => {
   try {
     const { transactionType, month, year, page = 1, limit = 10 } = req.query; // Hanya menggunakan `month` dan `year`
@@ -460,37 +459,67 @@ const getFamilyTransactions = async (req, res, next) => {
 
 const editTransaction = async (req, res, next) => {
   try {
-    const { id } = req.params; // ID transaksi
-    const { amount, transactionType, description, category, transactionAt } = req.body;
+    const { id } = req.params;
+    const { amount, transactionType, description, category, transactionAt } =
+      req.body;
     const userId = req.userId;
 
-    // Validasi input
-    if (!amount || !transactionType || !description || !category || !transactionAt) {
+    if (
+      !amount ||
+      !transactionType ||
+      !description ||
+      !category ||
+      !transactionAt
+    ) {
       throw new BadRequestError("Semua data wajib diisi");
     }
 
-    // Ambil informasi member berdasarkan userId
     const member = await prisma.member.findUnique({
       where: { userId },
       select: {
+        id: true,
         familyId: true,
         isFamilyHead: true,
+        balance: true,
       },
     });
 
     if (!member) throw new NotFoundError("Member tidak ditemukan");
     if (!member.isFamilyHead) {
-      throw new ForbiddenError("Hanya kepala keluarga yang dapat mengedit transaksi");
+      throw new ForbiddenError(
+        "Hanya kepala keluarga yang dapat mengedit transaksi"
+      );
     }
 
-    // Ambil transaksi berdasarkan ID
-    const transaction = await prisma.transaction.findUnique({ where: { id: parseInt(id) } });
+    const transaction = await prisma.transaction.findUnique({
+      where: { id: parseInt(id) },
+    });
     if (!transaction) throw new NotFoundError("Transaksi tidak ditemukan");
     if (transaction.familyId !== member.familyId) {
-      throw new ForbiddenError("Anda hanya dapat mengedit transaksi keluarga Anda");
+      throw new ForbiddenError(
+        "Anda hanya dapat mengedit transaksi keluarga Anda"
+      );
     }
 
-    // Lakukan pembaruan transaksi
+    const oldAmount = transaction.amount;
+    const oldType = transaction.transactionType;
+
+    // Hitung dampak pada saldo
+    let adjustment = 0;
+    if (oldType === "INCOME") adjustment -= oldAmount;
+    else if (oldType === "EXPENSE") adjustment += oldAmount;
+
+    if (transactionType === "INCOME") adjustment += amount;
+    else if (transactionType === "EXPENSE") adjustment -= amount;
+
+    const newBalance = member.balance + adjustment;
+
+    if (newBalance < 0) {
+      throw new BadRequestError(
+        "Perubahan transaksi ini akan menyebabkan saldo tidak mencukupi"
+      );
+    }
+
     const updatedTransaction = await prisma.transaction.update({
       where: { id: parseInt(id) },
       data: {
@@ -502,6 +531,11 @@ const editTransaction = async (req, res, next) => {
       },
     });
 
+    await prisma.member.update({
+      where: { id: member.id },
+      data: { balance: newBalance },
+    });
+
     res.json({ data: updatedTransaction });
   } catch (error) {
     console.error("Error editing transaction:", error);
@@ -511,32 +545,54 @@ const editTransaction = async (req, res, next) => {
 
 const deleteTransaction = async (req, res, next) => {
   try {
-    const { id } = req.params; // ID transaksi
+    const { id } = req.params;
     const userId = req.userId;
 
-    // Ambil informasi member berdasarkan userId
     const member = await prisma.member.findUnique({
       where: { userId },
       select: {
         familyId: true,
         isFamilyHead: true,
+        balance: true,
       },
     });
 
     if (!member) throw new NotFoundError("Member tidak ditemukan");
     if (!member.isFamilyHead) {
-      throw new ForbiddenError("Hanya kepala keluarga yang dapat menghapus transaksi");
+      throw new ForbiddenError(
+        "Hanya kepala keluarga yang dapat menghapus transaksi"
+      );
     }
 
-    // Ambil transaksi berdasarkan ID
-    const transaction = await prisma.transaction.findUnique({ where: { id: parseInt(id) } });
+    const transaction = await prisma.transaction.findUnique({
+      where: { id: parseInt(id) },
+    });
     if (!transaction) throw new NotFoundError("Transaksi tidak ditemukan");
     if (transaction.familyId !== member.familyId) {
-      throw new ForbiddenError("Anda hanya dapat menghapus transaksi keluarga Anda");
+      throw new ForbiddenError(
+        "Anda hanya dapat menghapus transaksi keluarga Anda"
+      );
     }
 
-    // Lakukan penghapusan transaksi
+    const adjustment =
+      transaction.transactionType === "INCOME"
+        ? -transaction.amount
+        : transaction.amount;
+
+    const newBalance = member.balance + adjustment;
+
+    if (newBalance < 0) {
+      throw new BadRequestError(
+        "Penghapusan transaksi ini akan menyebabkan saldo tidak mencukupi"
+      );
+    }
+
     await prisma.transaction.delete({ where: { id: parseInt(id) } });
+
+    await prisma.member.update({
+      where: { id: member.id },
+      data: { balance: newBalance },
+    });
 
     res.json({ message: "Transaksi berhasil dihapus" });
   } catch (error) {
@@ -553,6 +609,6 @@ module.exports = {
   createTransfer,
   getTotalTransaction,
   getFamilyTransactions,
-  editTransaction, 
+  editTransaction,
   deleteTransaction,
 };
