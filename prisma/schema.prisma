@@ -5,7 +5,7 @@
 // Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
 
 generator client {
-  provider = "prisma-client-js"
+  provider      = "prisma-client-js"
 }
 
 datasource db {
@@ -35,6 +35,8 @@ model User {
   updatedAt        DateTime @updatedAt
   member           Member?
   memberId         Int?
+
+  @@map("user")
 }
 
 model Member {
@@ -52,12 +54,14 @@ model Member {
   updatedAt           DateTime @updatedAt
 
   Transaction Transaction[]
+
+  @@map("memmber")
 }
 
 model Family {
   id           Int      @id @default(autoincrement())
   name         String   @unique
-  familyCode   String   @unique 
+  familyCode   String   @unique
   // @default(cuid())
   familyHeadId Int
   createdAt    DateTime @default(now())
@@ -65,6 +69,8 @@ model Family {
   members      Member[]
 
   Transaction Transaction[]
+
+  @@map("family")
 }
 
 model Transaction {
@@ -81,4 +87,6 @@ model Transaction {
   transactionAt   DateTime
   createdAt       DateTime        @default(now())
   updatedAt       DateTime        @updatedAt
+
+  @@map("transaction")
 }

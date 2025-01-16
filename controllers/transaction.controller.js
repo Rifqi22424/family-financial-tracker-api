@@ -551,6 +551,7 @@ const deleteTransaction = async (req, res, next) => {
     const member = await prisma.member.findUnique({
       where: { userId },
       select: {
+        id: true,
         familyId: true,
         isFamilyHead: true,
         balance: true,
